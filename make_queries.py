@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     client = serpapi.Client(api_key=token)
 
-    os.makedirs(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
 
     comb_gen = product(ml_terms, bio_terms)
 
@@ -48,17 +48,22 @@ if __name__ == '__main__':
 
     for query in tqdm.tqdm(comb_gen, total=len(ml_terms)*len(bio_terms)):
         search = " ".join([f'"{q}"' for q in query])
-        print(search, file=f)
         if serpapi is not None:
-            s = client.search(q=search, engine='google_scholar', num=100)
             simple_search = search.replace(' ', '_').replace('"', '')
+            if os.path.exists(f'{output_dir}/{simple_search}.p'):
+                continue
+            s = client.search(q=search, engine='google_scholar', num=100)
             # just titles and links for simplicity
             with open(f'{output_dir}/{simple_search}.txt','w') as f2:
                 for paper in s['organic_results']:
-                    print(f"{paper['title']}, {paper['link']}", file=f2)
+                    try:
+                        print(f"{paper['title']}, {paper['link']}", file=f2)
+                    except KeyError:
+                        print(f"{paper['title']}, No Link", file=f2)
             # actual pickle files to be rebuilt
             with open(f'{output_dir}/{simple_search}.p','wb') as f2:
                 f2.write(pickle.dumps(s))
+        print(search, file=f)
 
     f.close()
 
