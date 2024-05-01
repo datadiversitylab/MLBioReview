@@ -56,6 +56,32 @@ keywords, separated by comma, no full stop, lowercase
 Please begin the main text of your article here. 
 
 
+\subsection{Gradient Boosting}
+
+Where Random Forests \cite{breiman2001random} create an ensemble by bagging, another approach to building an ensemble involves developing the components models iteratively and is called, ``boosting''.  Let $f_{m-1}(x_i)$ be the boosted model's prediction after $m-1$ components have been added.  We seek the next iteration, $f_m(x_i) = f_{m-1}(x_i) + \gamma_m g_m(x_i)$.  For example, one could fix $\gamma_m=1$ and fit $g_m$ to minimize the residual loss, $L(y_i-f_{m-1}(x_i), g_m(x_i))$.  The way to determine $g_m$ and $\gamma_m$ depends on the exact nature of the boosting.
+
+One subtype of boosting is called, ``Gradient Boosted Models'' \cite{natekin2013gradient} or GBMs. This approach fits $g_m$ to minimize the loss on the negative gradient, $-\frac{\partial L(y_i)}{\partial f_{m-1}}$.  Then one finds the weight, $\gamma_m$ to minimize the overall loss, $L(y_i,f_{m-1}(x_i) + \gamma_m g_m(x_i))$.  The gradient helps direct the next model more carefully than generic boosting.
+
+Libraries to implement GBMs exist in many programming langauges.  We offer two code snippets, one in R and one in Python, to demonstrate one way to deploy this method.  \Cref{alg:xgboost} fits a Gradient Boosted Trees model with the XGBoost \cite{chen2016xgboost}.  Likewise, in R, \Cref{alg:gbm} trains a similar model with the \texttt{gbm} package.
+
+\begin{algorithm}
+\caption{Python GBM example using XGBoost}\label{alg:xgboost}
+\begin{lstlisting}[language=Python]
+import xgboost as xgb
+model = xgb.XGBRegressor(n_estimators=10)
+model.fit(Xtrain, Ytrain)
+pred = model.predict(Xtest)
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{R GBM example using \texttt{gbm}}\label{alg:xgboost}
+\begin{lstlisting}[language=Python]
+TODO
+\end{lstlisting}
+\end{algorithm}
+
+
 
 %Heading 1
 \section{FIRST-LEVEL HEADING}
