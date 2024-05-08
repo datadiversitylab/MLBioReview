@@ -1,0 +1,87 @@
+\subsection{Ordinary Least Squares}
+Ordinary Least Squares (OLS) is a
+  statistical method utilized to estimate the parameters of a linear
+  regression model. This technique focuses on minimizing the sum of the
+  squares of the residuals---the differences between observed values in
+  the dataset and the values predicted by the model. This approach
+  ensures that the model fits as closely as possible to the data,
+  providing a reliable basis for predictions and analysis.
+
+In the formulation of a linear regression model, the relationship
+between the dependent variable, denoted as \(y_{i}\) ,
+and a set of independent variables, represented by the matrix
+\(x_{i}\) , is typically expressed through the
+equation
+\(y_{i}\mathit{= \ }\mathit{\alpha\  + \ }\mathit{\beta}x_{i}\)
+, Here \(y_{i}\) response variable that we are trying
+to predict based on \(x_{i}\) , which comprises the
+input features. The coefficients \(\mathit{\beta}\) represent the
+parameters of the regression, indicating the influence of each input
+feature on the dependent variable. The term \(\mathit{\alpha}\) is the
+intercept, capturing the baseline value of \(y_{i}\)
+when all \(x_{i}\) values are zero.
+
+$$
+\beta = \frac{\sum_{i = 1}^{n}{(x_{i}-\overline{x})(y_{i}-\overline{y})}}{\sum_{i = 1}^{n}{(x_{i}-\overline{x})}^{2}}
+$$
+
+$$
+\alpha  = \overline{y}\  - \beta\overline{x}
+$$
+
+By solving the equation above finally we will get the model equation
+like this:
+
+$$
+y_{i}= \alpha  + \beta x_{i}
+$$
+
+OLS is a basic and widely used method; however, it relies on various
+assumptions that are violated in many datasets/research questions, e.g.
+normally distributed errors and independent data points. For instance,
+in a dataset with phylogenetic relationships between observations, OLS
+may not reveal a relationship between variables within clades but not
+across them, or show a relationship between variables across clades that
+does not exist once phylogeny is accounted for~- in this case, PGLS
+incoporating a variance-covariance matrix may be used (Symonds \&
+Bomberg 2018). It is therefore often compared with newer ML techniques
+in more recent papers.
+
+\subsubsection{Implementation}
+
+\begin{algorithm}
+    \caption{Python OLS example}\label{alg:ols_py}
+\begin{lstlisting}[language=R]
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(Xtrain, Ytrain)
+pred = model.predict(Xtest)
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{R OLS example}\label{alg:ols_r}
+\begin{lstlisting}[language=R]
+library(stats)
+#fit the model with training data
+ols.model <- lm(formula = outcome ~ predictor, data = training)
+preds <- predict(ols.model, newdata=testing)
+\end{lstlisting}
+\end{algorithm}
+
+
+References
+
+Dalgaard, Peter. \emph{Introductory Statistics with R}. Statistics and
+Computing. New York, NY: Springer New York, 2008.
+https://doi.org/10.1007/978-0-387-79054-1.
+
+Symonds, Matthew R. E., and Simon P. Blomberg. ``A Primer on
+Phylogenetic Generalised Least Squares.'' In \emph{Modern Phylogenetic
+Comparative Methods and Their Application in Evolutionary Biology},
+edited by László Zsolt Garamszegi, 105--30. Berlin, Heidelberg: Springer
+Berlin Heidelberg, 2014. https://doi.org/10.1007/978-3-662-43550-2\_5.
+
+James, G., Witten, D., Hastie, T., Tibshirani, R. \& Taylor, J., 2023.
+An introduction to statistical learning with applications in Python.
+Springer.
