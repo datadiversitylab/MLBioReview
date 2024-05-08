@@ -1,0 +1,223 @@
+Support Vector machines (SVMs) are a set of supervised learning methods
+widely used for applications such as image classification, text
+classification, and bioinformatics routines. SVMs are often used for
+classification but can also be adapted for regression tasks. Before the
+1980s almost all learning methods learned linear decision surfaces, and
+the amount of samples in statistical studies tended to be infinite.
+However, the size of real life the datasets is usually limited and the
+relationships between the features is almost never linear. In 1995,
+Vladimir N. Vapnik developed a novel approach and showed that SVMs work
+well with nonlinear and high-dimensional datasets at pattern recognition
+routines (Vapnik, 1995). Based on the concept of similarity, SVMs uses
+kernel functions to transform the data to a higher dimensionality,
+enabling linear separation by finding optimal hyperplanes that form the
+best decision boundary between classes and Support vectors or the data
+points that lie closest to the decision surface (or hyperplane) to
+maximize the margins between the classes. SVMs are flexible in defining
+similarity measures and often generalizes well to new data. With the
+advantage of global optimization and strong adaptability it has wide
+applications in areas like protein classification and face recognition.
+
+SVMs are primarily focused with determining the hyperplane the optimally
+divides data into particular classes based on the maximum margin
+(Vapnik, 1995; Cortes and Vapnik, 1995). The hyperplane on itself, is
+specifically defined such that on the minimum distance between data
+points in different groups (i.e. also known as support vectors) is
+maximized. In the case of pairwise data,
+
+$\left( x_{i},\ y_{i} \right)$, where
+$\left( x_{i}\  \in \ {\mathbb{R}}^{n} \right)$ are the
+feature vectors and
+$\left( y_{i}\  \in \ \left\{ 1,\  - 1 \right\} \right)$ are the class
+labels, SVMs are focused on solving the following optimization
+problem:
+
+\[\left\lbrack \min_{w,\ b}\ \frac{1}{2}\ \left\| w_{}^{2}\  + \ C\ \sum_{i = 1}^{m}\ \xi_{i} \right\rbrack \right.\ \]
+
+
+\(\left( y_{i}\ \left( w\  \cdot \ x_{i}\  + \ b \right)\  \geq \ 1\  - \ \xi_{i} \right)\)
+ \((i)\)
+\(\backslash\left( \xi_{i}\  \geq \ 0\backslash \right)\) are slack
+variables that allow misclassification of either challenging or noisy
+points. Similarly, \(\backslash(C\backslash)\ \) is a
+regularization parameter that enables the control of the trade-off
+associated with achieving a high margin while reducing training error.
+
+Kernels are the source of the intrinsic flexibility and importance
+in SVMs (Schölkopf and Smola, 2002). Kernels allow for operations in the
+input space to be equivalent to operations in a higher dimensional
+feature space (Hsu et al. 2003). Importantly, these operations occur
+implicitly without the need of computing coordinates in the new
+particular novel space (Noble, 2006). For instance, assume that although
+elevation distinguishes between two populations, this feature was not
+included in the analyzed dataset. Under SVMs, the use of a particular
+kernel the collected dataset (e.g. latitude and temperature) might
+result in the indirect inclusion of elevation as the result of the
+expanded multivariate space.
+
+A kernel function, $k\left( x_{i},x_{j} \right)$, is the dot product of two vectors of higher dimensional space.  Commonly used kernels functions polynomial kernel $k\left( x_{i},x_{j} \right)\  = \left( \gamma x_{i} \cdot x_{j}\  + r \right)^{d}$,
+radial basis function (RBF) kernel,
+$k\left( x_{i},x_{j} \right) = \exp\left( - \gamma\left\| x_{i} - x_{j}\right \|^{2} \right)$
+,
+and sigmoid kernel
+$k\left( x_{i},x_{j} \right) = \tanh\left( \gamma x_{i} \cdot x_{j} + r \right)$,
+where
+ $\gamma, r$,  and $d$
+are parameters that can be
+adjusted based on the dataset.
+
+\subsubsection{Usage in Biological research (Tanisha \& Cristian)}
+
+
+\emph{Case study: MRI brain classification using support vector
+machine:} In this paper, Support Vector Machines (SVM) are used for
+classifying MRI brain images into normal and abnormal categories. The
+methodology involves feature extraction through wavelet transformation,
+specifically using Daubechies-4 wavelets to handle the data efficiently.
+The extracted features then serve as input for the SVM classifier. The
+SVM model operates by mapping input data into a higher-dimensional space
+using an RBF kernel and then finding the optimal hyperplane that
+separates the classes with the maximum margin. This approach is geared
+towards improving the accuracy of classifying MRI scans, addressing the
+challenge of distinguishing between normal and pathological features
+effectively. The system is tested on a data set, and the results
+highlight its potential, though challenges like computational complexity
+and data precision limitations are noted.
+
+\subsubsection{Implementation details}
+
+SVMs are implemented in a range of libraries both in Python and R. In
+Python, the primary library for implementing SVMs is Scikit-learn. This
+versatile library implements functions to fit an analyze SVMs including
+SVC (Support Vector Classification), SVR (Support Vector Regression),
+and LinearSVC, an implementation that supports linear and non-linear
+SVMs.
+
+\begin{algorithm}
+	\caption{Python SVM example using \texttt{sklearn}}\label{alg:svm_py}
+\begin{lstlisting}[language=Python]
+from sklearn import svm
+# For classification
+clf = svm.SVC(kernel='linear')
+clf.fit(X_train, y_train)
+predictions = clf.predict(X_test)
+# For regression
+reg = svm.SVR(kernel='linear')
+reg.fit(X_train, y_train)
+predictions = reg.predict(X_test)
+\end{lstlisting}
+\end{algorithm}
+
+
+Within Python, the BioPython toolkit is closely integrated
+SVM-related implementations. In R, the e1071 package, a wrapper of
+the LIBSVM C++ library, is standard for implementing SVMs:
+
+\begin{algorithm}
+\caption{R SVM example using \texttt{e1071}}\label{alg:svm_r}
+\begin{lstlisting}[language=Python]
+library(e1071)
+# For classification
+model <- svm(formula = class ~ ., data =
+    training_data, type =
+'C-classification', kernel =
+'linear')
+predictions <- predict(model, newdata = test_data)
+# For regression
+model <- svm(y ~ ., data = training_data,
+type = 'eps-regression', kernel =
+'linear')
+predictions <- predict(model, newdata = test\_data)
+\end{lstlisting}
+\end{algorithm}
+
+Alternatively, excellent implementations of SVMs can be found in the
+\texttt{tidymodels} R package, which offers a streamlined and modern framework
+for modeling within R. The package includes functions such as
+\texttt{svm\_rbf()} and \texttt{svm\_linear()} that facilitate the application of SVMs
+with different kernel types in both regression and classification
+tasks.
+
+When fitting SVMs using \texttt{tidymodels}, practitioners typically focus
+on three critical parameters to optimize their models. First, the choice
+of the kernel type is central to this task as it determines the
+transformation space of the input data. Common kernels include linear,
+radial basis function (RBF), and polynomial. Each of this kernels is
+particularly suited for different characteristics of the data. For
+instance, the linear kernel is preferred for data that are linearly
+separable in the input space. The RBF kernel can handle more complex,
+nonlinear relationships. Second, tuning the regularization parameters,
+particularly the penalty parameter, $C$, and
+the kernel-specific parameter, $\gamma$.
+These two parameters are essential for preventing overfitting and
+ensuring the model generalizes well to new data. The parameter
+$C$ controls the trade-off between achieving
+a low error on the training data and minimizing the model complexity for
+better generalization. The
+$\gamma$ parameter defines how far the
+influence of a single training example reaches. Specifically, low values
+of $\gamma$ indicate ``far'' and high values
+meaning ``close''. Third, defining the optimal value for the margin (i.e.
+the decision boundary) is crucial. A larger margin can increase the
+generalizability of the classifier. However, if the margin is set too
+wide, it might lead to misclassification of the training data,
+especially if the data are noisy or not well-separated.
+
+There are considerations on pre-processing and interpretability of
+the models. First, pre-processing of datasets analyzed using SVMs
+generally involves several crucial steps. Normalization, for instance,
+is critical as SVMs are not scale invariant, and thus features need to
+be scaled typically to have zero mean and unit variance to ensure the
+model does not bias toward attributes with higher magnitude values.
+Imputation is employed to handle missing data values, which is common in
+biological datasets. Balancing is particularly important in
+classification tasks where class distributions are uneven, as unbalanced
+datasets can lead to biased models that may overpredict the majority
+class. Second, relative to simpler models, the interpretabilityof SVMs
+is generally challenging. Overall, the main focus is generally directed
+towards understanding the estimated weights. However, since the use of
+kernels often yield to the exploration of novel multivariate spaces,
+understanding the structure of results in SVMs in the context of the
+biological question is not always straightforward. We will, however,
+review two case of study in which SVMs were successfully used to
+answering questions in the field.
+
+HPC You et al. 2015
+
+
+
+You, Y., Fu, H., Song, S. L., Randles, A., Kerbyson, D., Marquez, A.,
+... \& Hoisie, A. (2015). Scaling support vector machines on modern HPC
+platforms. \emph{Journal of Parallel and Distributed Computing},
+\emph{76}, 16-31.
+
+
+
+
+
+Cortes, C., \& Vapnik, V. (1995). Support-vector networks. Machine
+learning, 20(3), 273-297.
+
+Schölkopf, B., \& Smola, A. J. (2002). Learning with Kernels:
+Support Vector Machines, Regularization, Optimization, and Beyond.
+
+Hsu, C. W., Chang, C. C., \& Lin, C. J. (2003). A practical guide to
+support vector classification.
+
+Noble, W. S. (2006). What is a support vector machine? Nature
+Biotechnology, 24(12), 1565-1567.
+
+Vapnik, V., Golowich, S.E. and Smola, A.J. (1997) Support Vector
+Method for Function Approximation, Regression Estimation and Signal. In:
+Mozer, M.C., Jordan, M. and Petsche, T., Eds., Advances in Neural
+Information Processing Systems 9, MIT Press, Cambridge, 281-287.
+(\url{https://proceedings.neurips.cc/paper_files/paper/1996/file/4f284803bd0966cc24fa8683a34afc6e-Paper.pdf}{Support
+Vector Method for Function Approximation, Regression Estimation, and
+Signal Processing})
+
+Othman, Mohd Fauzi Bin, Noramalina Bt Abdullah, and Nurul Fazrena Bt
+Kamal. "MRI brain classification using support vector machine." 2011
+fourth international conference on modeling, simulation and applied
+optimization. IEEE,
+2011.(\url{https://ieeexplore.ieee.org/abstract/document/5775605/})
+
