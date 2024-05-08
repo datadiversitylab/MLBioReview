@@ -9,7 +9,10 @@
 % For tracking purposes => this is v1.0 - Apr. 2013
 
 \documentclass{ar-1col-S2O}
+\usepackage[ruled,procnumbered]{algorithm2e}%
 \usepackage[numbers]{natbib}
+\usepackage[nameinlink]{cleveref}
+\usepackage{listings}%
 \usepackage{url}
 \setcounter{secnumdepth}{4}
 
@@ -18,6 +21,21 @@
 \jvol{AA}
 \jyear{YYYY}
 \doi{10.1146/((please add article doi))}
+
+% Change name of algorithm to "snippet"
+\SetAlgorithmName{Snippet}{snippet}{list of snippets}
+\makeatletter
+\renewcommand{\algorithmautorefname}{Snippet}
+\makeatother
+
+%cref alias
+\newcounter{snippet}
+\makeatletter
+% https://tex.stackexchange.com/a/212030/26355
+\AtBeginEnvironment{snippet}{\let\c@algocf\c@snippet\crefalias{algocf}{snippet}}
+\makeatother
+\crefname{algorithm}{snip.}{snips.}
+\Crefname{algorithm}{Snippet}{Snippets}
 
 
 % Document starts
@@ -56,6 +74,8 @@ keywords, separated by comma, no full stop, lowercase
 Please begin the main text of your article here. 
 
 
+\input{rf.tex}
+
 \subsection{Gradient Boosting}
 
 Where Random Forests \cite{breiman2001random} create an ensemble by bagging, another approach to building an ensemble involves developing the components models iteratively and is called, ``boosting''.  Let $f_{m-1}(x_i)$ be the boosted model's prediction after $m-1$ components have been added.  We seek the next iteration, $f_m(x_i) = f_{m-1}(x_i) + \gamma_m g_m(x_i)$.  For example, one could fix $\gamma_m=1$ and fit $g_m$ to minimize the residual loss, $L(y_i-f_{m-1}(x_i), g_m(x_i))$.  The way to determine $g_m$ and $\gamma_m$ depends on the exact nature of the boosting.
@@ -82,7 +102,6 @@ TODO
 \end{algorithm}
 
 
-
 %Heading 1
 \section{FIRST-LEVEL HEADING}
 This is dummy text. 
@@ -102,7 +121,7 @@ This is dummy text. This is dummy text. This is dummy text. This is dummy text.
 \subsection{Figures}Figures should be cited in the main text in chronological order. This is dummy text with a citation to the first figure (\textbf{Figure \ref{fig1}}). Citations to \textbf{Figure \ref{fig1}} (and other figures) will be bold. 
 
 \begin{figure}[h]
-\includegraphics[width=3in]{SampleFigure}
+%\includegraphics[width=3in]{SampleFigure}
 \caption{Figure caption with descriptions of parts a and b}
 \label{fig1}
 \end{figure}
@@ -211,8 +230,6 @@ Acknowledgements, general annotations, funding.
 
 To download the appropriate bibliography style file, please see \url{https://www.annualreviews.org/page/authors/general-information}. 
 
-\\
-
 \noindent
 Please see the Style Guide document for instructions on preparing your Literature Cited.
 
@@ -220,78 +237,6 @@ The citations should be listed in order of appearance, with titles. For example:
 
 
 
-
-
-
-\begin{verbatim}
-\begin{thebibliography}{00}
-\bibitem{Trouve1995a}
-Trouv\'{e} A. 1995. {\it An approach of pattern recognition through infinite 
-dimensional group action.} Rep. LMENS-95-9, Lab. Math. l'Ecole Norm. Superieure, Paris 
-
-\bibitem{Christensen1996}
-Christensen G, Miller MI, Rabbit RD. 1995. Deformable templates
-using large deformation kinematics. {\it IEEE Trans. Med. Imaging}
-5(10):1435--47
-
-\bibitem{Grenander1998}
-Grenander U, Miller MI. 1998. Computational anatomy: an emerging
-discipline. {\it Q. Appl. Math.} 56:617--94
-
-\bibitem{Dupuis1998}
-Dupuis P, Grenander U, Miller MI. 1998. Variation problems on
-flows of diffeomorphisms for image matching. {\it Q. Appl. Math.}
-56:587--600
-
-\bibitem{Miller-Younes-2001}
-Miller MI, Younes L. 2001. Group actions, homeomorphisms, and matching: a general framework. {\it Int. J. Comput. Vis.}
-41:61--84
-
-\bibitem{Toga2001}
-Toga A, Thompson PM. 2001. Maps of the brain. {\it Anat. Rec.}
-265:37--53
-
-
-
-\end{thebibliography}
-\end{verbatim}
-
-
-
-
-\begin{thebibliography}{00}
-
-\bibitem{Trouve1995a}%1
-Trouv\'{e} A. 1995. {\it An approach of pattern recognition through
-infinite dimensional group action.} Rep. LMENS-95-9, Lab. Math. l'Ecole Norm. Superieure, Paris  
-
-\bibitem{Christensen1996}%2
-Christensen G, Miller MI, Rabbit RD. 1995. Deformable templates
-using large deformation kinematics. {\it IEEE Trans. Med. Imaging}
-5(10):1435--47
-
-\bibitem{Grenander1998}%3
-Grenander U, Miller MI. 1998. Computational anatomy: an emerging
-discipline. {\it Q. Appl. Math.} 56:617--94
-
-\bibitem{Dupuis1998}%4
-Dupuis P, Grenander U, Miller MI. 1998. Variation problems on
-flows of diffeomorphisms for image matching. {\it Q. Appl. Math.}
-56:587--600
-
-\bibitem{Miller-Younes-2001}%5
-Miller MI, Younes L. 2001. Group actions, homeomorphisms, and matching: a general framework. {\it Int. J. Comput. Vis.}
-41:61--84
-
-\bibitem{Toga2001}%6
-Toga A, Thompson PM. 2001. Maps of the brain. {\it Anat. Rec.}
-265:37--53
-
-
-
- 
-
-\end{thebibliography}
-
+\bibliography{cites.bib}% common bib file
 
 \end{document}
