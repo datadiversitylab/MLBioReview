@@ -9,12 +9,13 @@
 % For tracking purposes => this is v1.0 - Apr. 2013
 
 \documentclass{ar-1col-S2O}
+\usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage[ruled,procnumbered]{algorithm2e}%
 \usepackage[numbers]{natbib}
 \usepackage[nameinlink]{cleveref}
 \usepackage{listings}%
 \usepackage{url}
-\usepackage{amssymb}
 \setcounter{secnumdepth}{4}
 
 % Metadata Information
@@ -22,6 +23,12 @@
 \jvol{AA}
 \jyear{YYYY}
 \doi{10.1146/((please add article doi))}
+
+% tikz libs
+\usepackage{tikz} % fancy diagrams
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{arrows.meta}
 
 % Change name of algorithm to "snippet"
 \SetAlgorithmName{Snippet}{snippet}{list of snippets}
@@ -73,6 +80,68 @@ keywords, separated by comma, no full stop, lowercase
 % Heading 1
 \section{INTRODUCTION}
 Please begin the main text of your article here. 
+
+%%% Fig of search terms
+\begin{figure}[htb]
+\centering
+	\begin{tikzpicture}[node distance=2.5cm,auto]
+		\node[draw=none, anchor=north] (biot) {Biology Term, One of:};
+        \node[below=0.5cm of biot] (bio) {$\left\{ \begin{matrix}
+            \text{biodiversity} \\
+            \text{biogeography} \\
+            \text{bioinformatics} \\
+            \text{biology} \\
+            \text{conservation} \\
+            \text{developmental biology} \\
+            \text{disease classification} \\
+            \text{disease ecology}
+            \text{ecology} \\
+            \text{environmental biology} \\
+            \text{evolution} \\
+            \text{genetics} \\
+            \text{genomics} \\
+            \text{immunology} \\
+            \text{marine biology} \\
+            \text{medical imaging} \\
+            \text{metabolomics} \\
+            \text{microbiology} \\
+            \text{neurobiology} \\
+            \text{paleontology} \\
+            \text{phylogenetics} \\
+            \text{phylogenomics} \\
+            \text{proteomics} \\
+            \text{systems biology} \\
+        \end{matrix}\right\}$}; 
+        \node[left=0.25cm of bio] (cross) {$\mathbf{\times}$};
+        \node[left=0.25cm of cross] (ml) {$\left\{ \begin{matrix}
+            \text{OLS} \\
+            \text{random forest} \\
+            \text{support vector machine} \\
+            \text{gradient boosted trees} 
+        \end{matrix}\right\}$}; 
+		\node[above=0.5 of ml] (mlt) {ML Term, One of:}; 
+        \node[right=0.25cm of bio] (equals) {$\mathbf{=}$};
+        \node[right=0.25cm of equals] (query) {$\left\{ \begin{matrix}
+            \text{``OLS'' ``biodiversity''} \\
+            \text{``OLS'' ``biogeography''} \\
+            \cdots \\
+            \text{``random forest'' ``genomics''} \\
+            \cdots \\
+        \end{matrix}\right\}$}; 
+		\node[above=0.5 of query] (queryt) {Search Query, e.g.}; 
+		%\node[draw, circle, minimum size=1.5cm, left=2cm of dummy] (x) {$P(x)$}; 
+		%\node[draw, circle, minimum size=1.5cm, right=2cm of dummy] (x2) {$P(x')$}; 
+		%\node[draw=none, below=0.5cm of dummy] (pmf2) {$A(x,x')q(x,x')$}; 
+%
+		%\draw[-{Latex[length=3mm]}] (x.north east) -- (x2.north west);
+		%\draw[{Latex[length=3mm]}-] (x.south east) -- (x2.south west);
+
+		%\node[draw=none, below=2cm of dummy] (db) {Detailed Balance: $A(x',x)q(x',x)P(x) = A(x,x')q(x,x')P(x')$}; 
+	\end{tikzpicture}
+    \caption{Construction of search queries by selecting one machine learning term and one biology term.}
+    \label{fig:search}
+\end{figure}
+
 
 
 \input{OLS.tex}
