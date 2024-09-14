@@ -17,7 +17,7 @@ def parse_result(res):
     link = res.get('link', None)
     try:
         cited_by = int(res['inline_links']['cited_by']['total'])
-    except KeyError:
+    except (KeyError, TypeError):
         cited_by = None
     try:
         year = year_pat.findall(res['publication_info']['summary'])
